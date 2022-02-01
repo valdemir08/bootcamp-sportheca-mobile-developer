@@ -21,6 +21,8 @@ public class Calculadora {
 		//usando casting. 
 		//ou criar um novo atributo do tipo double, que recebe o valore em int
 		
+		
+		
 		System.out.println("som "+soma);
 		System.out.println("sub "+subtracao);
 		System.out.println("mul "+multiplicacao);
