@@ -7,6 +7,7 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="estruturas_de_dados_em_java_introducao" />
+        <module name="projeto_atribuicao_referencia_em_java" />
       </profile>
     </annotationProcessing>
   </component>
