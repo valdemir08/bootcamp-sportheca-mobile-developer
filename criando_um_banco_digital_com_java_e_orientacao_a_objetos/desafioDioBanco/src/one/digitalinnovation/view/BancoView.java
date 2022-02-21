@@ -110,6 +110,14 @@ public class BancoView extends JFrame{
 	public void setTransferenciaMenu(JMenu transferenciaMenu) {
 		this.transferenciaMenu = transferenciaMenu;
 	}
+	public BackgroundView getBcView() {
+		return bcView;
+	}
+	public void setBcView(BackgroundView bcView) {
+		this.bcView = bcView;
+	}
+	
+	
 	
 	
 	

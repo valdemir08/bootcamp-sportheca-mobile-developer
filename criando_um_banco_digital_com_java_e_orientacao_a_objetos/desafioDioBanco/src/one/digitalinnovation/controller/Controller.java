@@ -105,6 +105,7 @@ public class Controller {
 		removerController.getRemoverContainer().setVisible(false);
 		cadastroController.getCadastroContainer().setVisible(false);
 		transferenciaController.getTransferenciaContainer().setVisible(false);
+		bancoController.getBancoView().getBcView().setVisible(false);
 		
 	}
 	
