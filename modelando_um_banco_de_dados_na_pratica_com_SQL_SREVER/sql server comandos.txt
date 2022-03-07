@@ -1,0 +1,140 @@
+//////////////////////////////////////////////////////////////
+1 - CRIANDO AS TABELAS RELACIONADAS DO PROJETO
+//////////////////////////////////////////////////////////////
+
+============================================================
+1.1 COMANDO CREATE TABLE E CRIAÇÃO DA PRIMEIRA TABBELA PLANETAS
+============================================================
+CREATE TABLE Planetas(
+	IdPlaneta int NOT NULL, //Nome da coluna, tipo da coluna, e se aceita nulos ou não
+	Nome varchar(50) NOT NULL,
+	Rotacao float NOT NULL,	
+	Orbita float NOT NULL,
+	Diametro float NOT NULL,
+	Clima varchar(50) NOT NULL,
+	Populacao int NOT NULL,
+)
+GO
+//go indica sessão diferente ou separação
+
+
+ALTER TABLE Planetas ADD CONSTRAINT PK_Planetas PRIMARY KEY (IdPlaneta);
+//alterar a tabela, pode ser usado para adicionar/remover colunas ou até mudar tipo da coluna
+//adicao de constraint (adição de regra) seguida do nome PK_Planetas - PK de primary key - logo após vem o tipo de regra PRIMARY KEY e (coluna incluida nessa regra)
+
+
+
+=================================================================
+1.1 CRIAÇÃO DA TABELA NAVES E PILOTOS
+=================================================================
+
+create table Pilotos(
+	IdPiloto int not null,
+	Nome varchar(200) not null,
+	AnoNascimento varchar(10) not null,
+	IdPlaneta int not null,//vai servir de chave estrangeira 
+//para referenciar a tabela Planeta ( 1 planeta para 1 piloto)
+)
+
+go 
+alter table Pilotos add constraint PK_Pilotos primary key (IdPiloto);
+go
+alter table Pilotos add constraint FK_Pilotos_Planetas foreign key(IdPlaneta)
+references Planetas (IdPlaneta)
+
+padrão de nome 
+(tabela da qual está vindo para tabela que está referenciando FK_Pilotos_Planetas)
+
+
+
+
+
+================================================================
+1.1 CRIAÇÃO DA TABELA PILOTOSNAVES E FINALIZAR IMPLEMENTAÇÃO DE FOREING KEYS
+================================================================
+
+
+create table PilotosNaves(
+	IdPiloto int not null,
+	IdNave int not null,
+	FlagAutorizado bit not null,
+)
+go
+alter table PilotosNaves add constraint PK_PilotosNaves primary key (IdPiloto, IdNave);
+//uma chave composta para evitar que um mesmo piloto esteja cadastrado para a mesma nave + de 1 vez
+//evitando registros duplicados
+go
+alter table PilotosNaves add constraint FK_PilotosNaves_Pilotos foreign key (IdPiloto)
+references Pilotos (IdPiloto)
+go
+
+alter table PilotosNaves add constraint FK_PilotosNaves_Naves foreign key (IdNave)
+references Naves (IdNave);
+go
+
+alter table PilotosNaves add constraint DF_PilotosNaves_FlagAutorizado default (1) for FlagAutorizado;
+//Caso não seja indicado valor para esta coluna, o default será 1
+
+------------
+
+create table HistoricoViagens(
+	IdNave int not null,
+	IdPiloto int not null,
+	DtSaida datetime not null,
+	DtChegada datetime null
+)
+//criação de registro assim que o piloto sair, data de chegada alterada de null para a data de chegada
+//isso porque a data de chegada só é deciddia no futuro
+go
+
+alter table HistoricoViagens add constraint FK_HistoricoViagens_PilotosNaves foreign key (IdPiloto, IdNave)
+references PilotosNaves (IdPiloto, IdNave);
+//a criação me dessa FK me garante que vou ter 1 piloto autorizado para tal nave
+go
+
+alter table HistoricoViagens check constraint FK_HistoricoViagens_PilotosNaves
+//serve para verificar se os registros dessa tebala estão sendo garantidos
+
+
+
+//////////////////////////////////////////////////////////////
+2 - IMPLEMENTAÇÃO DA INTERFACE
+//////////////////////////////////////////////////////////////
+
+===============================================================
+2.1 Apresentação da estrutura de código API e formulários
+===============================================================
+select * from Pilotos
+select * from Planetas
+select * from Naves
+select * from PilotosNaves
+select * from HistoricoViagens
+
+select 
+	t1.IdPiloto,
+	t1.Nome,
+	t1.AnoNascimento,
+	t2.IdPlaneta,
+	t2.Nome NomePlaneta,
+	t2.Rotacao,
+	t2.Orbita,
+	t2.Diametro,
+	t2.Clima,
+	t2.Populacao
+
+	from Pilotos t1
+	inner join Planetas t2
+	on t1.IdPlaneta = t2.IdPlaneta
+	where IdPiloto = 2
+
+
+
+===============================================================
+2.2 Interface de controle de naves e pilotos
+===============================================================
+buascas com:
+	ltrim like
+
+===============================================================
+2.5 Dicas finais sobre boas práticas para criação de tabelas
+===============================================================
